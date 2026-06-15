@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regramm — Social Media Agentur</title>
+  <style>
+    /* ─── FONTS ─────────────────────────────────────────── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:       #1C1616;
+      --cream:    #FEF6E2;
+      --pink:     #F24AC7;
+      --olive:    #8C9B57;
+      --dark-red: #ab0000;
+      --mauve:    #deafd2;
+      --star:     #F756A3;
+      --border:   rgba(254,246,226,.15);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── UTILITIES ──────────────────────────────────────── */
+    .u-center   { display: flex; align-items: center; justify-content: center; }
+    .u-upper    { text-transform: uppercase; }
+    .u-letter   { letter-spacing: .15em; }
+    .container  { max-width: 1400px; margin-inline: auto; padding-inline: 2rem; }
+    .section-pad { padding-block: 10rem; }
+    .section-pad--sm { padding-block: 6rem; }
+
+    /* ─── SCROLLBAR ──────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--pink); }
+
+    /* ═══════════════════════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════════════════════ */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mix-blend-mode: normal;
+    }
+
+    #header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(28,22,22,.9) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .header__logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      color: var(--cream);
+      position: relative;
+      z-index: 1;
+    }
+    .header__logo span { color: var(--pink); }
+
+    .header__nav {
+      display: flex;
+      gap: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header__nav a {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: .7;
+      transition: opacity .2s;
+    }
+    .header__nav a:hover { opacity: 1; }
+
+    .header__cta {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem 1.4rem;
+      border: 1.5px solid var(--pink);
+      color: var(--pink);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: background .2s, color .2s;
+      cursor: pointer;
+      background: transparent;
+    }
+    .btn-outline:hover { background: var(--pink); color: var(--bg); }
+
+    /* ═══════════════════════════════════════════════════════
+       RIBBON
+    ═══════════════════════════════════════════════════════ */
+    .ribbon-wrap {
+      overflow: hidden;
+      position: relative;
+      height: 100px;
+    }
+
+    .ribbon {
+      display: flex;
+      align-items: center;
+      height: 100px;
+      background: var(--olive);
+      border-top: 2px solid var(--bg);
+      border-bottom: 2px solid var(--bg);
+      transform: rotate(-1.5deg) translateY(-10px);
+      transform-origin: left center;
+    }
+
+    .ribbon-inner {
+      background: var(--pink);
+      border-top: 2px solid var(--bg);
+      border-bottom: 2px solid var(--bg);
+      height: 80px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .ribbon-track {
+      display: flex;
+      gap: 4rem;
+      animation: ribbon-scroll 18s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ribbon-track span {
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .ribbon-track .star {
+      color: var(--cream);
+      font-size: 1.2rem;
+    }
+
+    @keyframes ribbon-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(242,74,199,.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(140,155,87,.08) 0%, transparent 60%),
+        var(--bg);
+    }
+
+    .hero__noise {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.04'/%3E%3C/svg%3E");
+      opacity: .3;
+      pointer-events: none;
+    }
+
+    /* Scrolling pink cloud-like lines */
+    .hero__clouds {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero__cloud-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+      opacity: .15;
+    }
+    .hero__cloud-line:nth-child(1) { top: 20%; }
+    .hero__cloud-line:nth-child(2) { top: 40%; }
+    .hero__cloud-line:nth-child(3) { top: 60%; }
+    .hero__cloud-line:nth-child(4) { top: 80%; }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      padding-inline: 2.5rem;
+      max-width: 900px;
+    }
+
+    .hero__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 2rem;
+    }
+
+    .hero__tag::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1.5px;
+      background: var(--pink);
+    }
+
+    .hero__title {
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -.03em;
+      color: var(--cream);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero__title em {
+      font-style: normal;
+      color: var(--pink);
+    }
+
+    .hero__sub {
+      font-size: 1rem;
+      color: rgba(254,246,226,.55);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: .9rem 2.2rem;
+      background: var(--pink);
+      color: var(--bg);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .85; }
+
+    /* decorative star */
+    .hero__star {
+      position: absolute;
+      right: 10%; bottom: 25%;
+      z-index: 2;
+    }
+
+    .hero__star svg { animation: spin-slow 12s linear infinite; }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+
+    /* ═══════════════════════════════════════════════════════
+       INTRO / MARQUEE
+    ═══════════════════════════════════════════════════════ */
+    #intro {
+      padding-block: 2rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════════════════════════ */
+    #services {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 5rem;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .section-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--pink);
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 5vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -.03em;
+      line-height: .95;
+      color: var(--cream);
+    }
+
+    .services__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      padding: 3rem 2.5rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: background .3s;
+    }
+
+    .service-card:nth-child(3n) { border-right: none; }
+    .service-card:nth-last-child(-n+3) { border-bottom: none; }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--pink);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .service-card:hover::before { opacity: .06; }
+
+    .service-card__num {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      color: var(--pink);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .service-card__title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 1rem;
+      color: var(--cream);
+      position: relative;
+    }
+
+    .service-card__text {
+      font-size: .88rem;
+      line-height: 1.7;
+      color: rgba(254,246,226,.5);
+      position: relative;
+    }
+
+    .service-card__arrow {
+      position: absolute;
+      right: 2rem;
+      bottom: 2rem;
+      opacity: .3;
+      transition: opacity .3s, transform .3s;
+    }
+    .service-card:hover .service-card__arrow {
+      opacity: 1;
+      transform: translate(4px, -4px);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CLANS → für Regramm: "Plattformen"
+    ═══════════════════════════════════════════════════════ */
+    #platforms {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .platforms__title-wrap {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .platforms__grid {
+      display: flex;
+      gap: 0;
+    }
+
+    .platform-card {
+      flex: 1;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      border-right: 2px solid var(--bg);
+      transition: flex .5s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .platform-card:last-child { border-right: none; }
+    .platform-card:hover { flex: 1.5; }
+
+    .platform-card--instagram { background: linear-gradient(135deg, #485229 0%, #2a3018 100%); }
+    .platform-card--tiktok    { background: linear-gradient(135deg, #ab0000 0%, #600000 100%); }
+    .platform-card--linkedin  { background: linear-gradient(135deg, #deafd2 0%, #b87aab 100%); }
+
+    .platform-card__bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10rem;
+      font-weight: 900;
+      color: rgba(0,0,0,.15);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: -.05em;
+      transition: transform .5s;
+    }
+    .platform-card:hover .platform-card__bg-text {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .platform-card__content { position: relative; z-index: 1; }
+
+    .platform-card__icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .platform-card__title {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      color: var(--cream);
+      margin-bottom: .8rem;
+    }
+    .platform-card--linkedin .platform-card__title { color: var(--bg); }
+
+    .platform-card__text {
+      font-size: .85rem;
+      line-height: 1.6;
+      color: rgba(254,246,226,.6);
+      max-width: 260px;
+      transition: opacity .3s;
+      opacity: 0;
+    }
+    .platform-card--linkedin .platform-card__text { color: rgba(28,22,22,.6); }
+    .platform-card:hover .platform-card__text { opacity: 1; }
+
+    /* ═══════════════════════════════════════════════════════
+       VISION / STATS
+    ═══════════════════════════════════════════════════════ */
+    #stats {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      divide-x: 1px solid var(--border);
+    }
+
+    .stat-item {
+      padding: 4rem 2rem;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-item__number {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .stat-item__number span { color: var(--pink); }
+
+    .stat-item__label {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(254,246,226,.4);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       ABOUT / VISION
+    ═══════════════════════════════════════════════════════ */
+    #about {
+      background: var(--cream);
+      color: var(--bg);
+    }
+
+    #about .section-label { color: var(--dark-red); }
+    #about .section-label::before { background: var(--dark-red); }
+    #about .section-title { color: var(--bg); }
+
+    .about__layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about__text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(28,22,22,.7);
+    }
+
+    .about__text p + p { margin-top: 1.2rem; }
+
+    .about__features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .about__feature {
+      padding: 1.8rem;
+      border: 1.5px solid rgba(28,22,22,.12);
+      background: rgba(28,22,22,.03);
+    }
+
+    .about__feature__icon {
+      font-size: 1.8rem;
+      margin-bottom: .8rem;
+    }
+
+    .about__feature__title {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--bg);
+      margin-bottom: .4rem;
+    }
+
+    .about__feature__text {
+      font-size: .82rem;
+      color: rgba(28,22,22,.55);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PROCESS
+    ═══════════════════════════════════════════════════════ */
+    #process { }
+
+    .process__steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .process__step {
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background .2s;
+    }
+
+    .process__step:last-child { border-bottom: none; }
+
+    .process__step__num {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: var(--pink);
+      opacity: .4;
+      line-height: 1;
+    }
+
+    .process__step__title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: var(--cream);
+    }
+
+    .process__step__text {
+      font-size: .88rem;
+      line-height: 1.7;
+      color: rgba(254,246,226,.5);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       FAQ
+    ═══════════════════════════════════════════════════════ */
+    #faq {
+      border-top: 1px solid var(--border);
+    }
+
+    .faq__layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 8rem;
+    }
+
+    .faq__sticky {
+      position: sticky;
+      top: 8rem;
+      align-self: start;
+    }
+
+    .faq__list { }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding-block: 2rem;
+    }
+
+    .faq-item__question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      gap: 1rem;
+    }
+
+    .faq-item__q {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .faq-item__icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s, background .3s;
+    }
+
+    .faq-item__icon svg { width: 10px; height: 10px; fill: var(--cream); transition: transform .3s; }
+
+    .faq-item.open .faq-item__icon { background: var(--pink); border-color: var(--pink); }
+    .faq-item.open .faq-item__icon svg { fill: var(--bg); transform: rotate(45deg); }
+
+    .faq-item__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+    }
+
+    .faq-item.open .faq-item__answer { max-height: 300px; padding-top: 1.2rem; }
+
+    .faq-item__a {
+      font-size: .9rem;
+      line-height: 1.7;
+      color: rgba(254,246,226,.5);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CONTACT / FOOTER CTA
+    ═══════════════════════════════════════════════════════ */
+    #contact {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 50% 50%, rgba(242,74,199,.15) 0%, transparent 65%),
+        var(--bg);
+    }
+
+    .contact__content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 700px;
+      margin-inline: auto;
+    }
+
+    .contact__title {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -.04em;
+      color: var(--cream);
+      margin-bottom: 2rem;
+    }
+
+    .contact__title em { color: var(--pink); font-style: normal; }
+
+    .contact__sub {
+      font-size: 1rem;
+      color: rgba(254,246,226,.45);
+      margin-bottom: 3rem;
+    }
+
+    .contact__form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .contact__input {
+      flex: 1;
+      padding: 1rem 1.4rem;
+      background: rgba(254,246,226,.06);
+      border: 1.5px solid var(--border);
+      border-right: none;
+      color: var(--cream);
+      font-size: .9rem;
+      font-family: inherit;
+      outline: none;
+    }
+    .contact__input::placeholder { color: rgba(254,246,226,.3); }
+    .contact__input:focus { border-color: var(--pink); }
+
+    /* ═══════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer__logo {
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+    .footer__logo span { color: var(--pink); }
+
+    .footer__nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer__nav a {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(254,246,226,.4);
+      transition: color .2s;
+    }
+    .footer__nav a:hover { color: var(--cream); }
+
+    .footer__copy {
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(254,246,226,.25);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .services__grid { grid-template-columns: 1fr 1fr; }
+      .service-card:nth-child(3n) { border-right: 1px solid var(--border); }
+      .service-card:nth-child(2n) { border-right: none; }
+      .stats__grid { grid-template-columns: 1fr 1fr; }
+      .stat-item:nth-child(2) { border-right: none; }
+      .about__layout { grid-template-columns: 1fr; gap: 3rem; }
+      .faq__layout { grid-template-columns: 1fr; gap: 3rem; }
+      .process__step { grid-template-columns: 60px 1fr; }
+      .process__step__text { grid-column: 2; grid-row: 2; }
+    }
+
+    @media (max-width: 768px) {
+      #header { padding: 1.2rem 1.5rem; }
+      .header__nav { display: none; }
+      .hero__content { padding-inline: 1.5rem; }
+      .services__grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; }
+      .platforms__grid { flex-direction: column; }
+      .platform-card { min-height: 200px; }
+      .platform-card__text { opacity: 1; }
+      .about__features { grid-template-columns: 1fr; }
+      .stats__grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .contact__form { flex-direction: column; }
+      .contact__input { border-right: 1.5px solid var(--border); border-bottom: none; }
+      .process__step { grid-template-columns: 1fr; }
+      .process__step__num { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ╔══════════════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════════════╗ -->
+  <header id="header">
+    <a href="/" class="header__logo">Re<span>gramm</span></a>
+
+    <nav class="header__nav">
+      <a href="#services">Leistungen</a>
+      <a href="#platforms">Plattformen</a>
+      <a href="#about">Über uns</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="header__cta">
+      <a href="#contact" class="btn-outline">Kontakt</a>
+    </div>
+  </header>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__noise"></div>
+    <div class="hero__clouds">
+      <div class="hero__cloud-line"></div>
+      <div class="hero__cloud-line"></div>
+      <div class="hero__cloud-line"></div>
+      <div class="hero__cloud-line"></div>
+    </div>
+
+    <div class="hero__star">
+      <svg width="60" height="60" viewBox="0 0 45 24" fill="none">
+        <path d="M27.65 14.68L45 12L27.65 9.32L29.68 4.74L25.15 6.8L22.5 0L19.85 6.8L15.32 4.74L17.35 9.33L0 12L17.35 14.68L15.32 19.26L19.85 17.21L22.5 24L25.15 17.21L29.68 19.26L27.65 14.68Z" fill="#F756A3"/>
+      </svg>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__tag">Social Media Agentur — München</div>
+      <h1 class="hero__title">
+        Wir machen<br>
+        deine Marke<br>
+        <em>sichtbar.</em>
+      </h1>
+      <p class="hero__sub">
+        Regramm ist eine Full-Service Social-Media-Agentur. Wir entwickeln Strategien, produzieren Content und schalten Kampagnen, die wirklich performen.
+      </p>
+      <div class="hero__actions">
+        <a href="#contact" class="btn-primary">Jetzt anfragen</a>
+        <a href="#services" class="btn-outline">Leistungen</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       RIBBON
+  ══════════════════════════════════════════════════════╗ -->
+  <div id="intro">
+    <div class="ribbon-wrap">
+      <div class="ribbon">
+        <div class="ribbon-inner">
+          <div class="ribbon-track">
+            <span>Regramm</span><span class="star">★</span>
+            <span>Social Media</span><span class="star">★</span>
+            <span>Content Creation</span><span class="star">★</span>
+            <span>Paid Ads</span><span class="star">★</span>
+            <span>Influencer Marketing</span><span class="star">★</span>
+            <span>Community Management</span><span class="star">★</span>
+            <span>Regramm</span><span class="star">★</span>
+            <span>Social Media</span><span class="star">★</span>
+            <span>Content Creation</span><span class="star">★</span>
+            <span>Paid Ads</span><span class="star">★</span>
+            <span>Influencer Marketing</span><span class="star">★</span>
+            <span>Community Management</span><span class="star">★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       SERVICES
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="services" class="section-pad container">
+    <div class="services__header reveal">
+      <div>
+        <div class="section-label">Leistungen</div>
+        <h2 class="section-title">Was wir<br>für dich tun</h2>
+      </div>
+      <p style="max-width:340px; color:rgba(254,246,226,.45); font-size:.9rem; line-height:1.7;">
+        Von der Strategie bis zur Umsetzung — wir übernehmen alles, was deine Social-Media-Präsenz braucht.
+      </p>
+    </div>
+
+    <div class="services__grid">
+      <div class="service-card reveal">
+        <div class="service-card__num">01</div>
+        <h3 class="service-card__title">Social Media Management</h3>
+        <p class="service-card__text">Planung, Erstellung und Veröffentlichung deiner Inhalte auf allen relevanten Kanälen. Inkl. Community Management.</p>
+        <span class="service-card__arrow">→</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">02</div>
+        <h3 class="service-card__title">Content Creation</h3>
+        <p class="service-card__text">Foto, Video, Grafik und Copy — wir produzieren Inhalte, die deine Marke authentisch und professionell darstellen.</p>
+        <span class="service-card__arrow">→</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">03</div>
+        <h3 class="service-card__title">Paid Ads</h3>
+        <p class="service-card__text">Performance-Kampagnen auf Instagram, Facebook, TikTok und Google — datengetrieben und auf dein Budget optimiert.</p>
+        <span class="service-card__arrow">→</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">04</div>
+        <h3 class="service-card__title">Strategie & Beratung</h3>
+        <p class="service-card__text">Wir entwickeln maßgeschneiderte Social-Media-Strategien, die zu deiner Marke und deinen Zielen passen.</p>
+        <span class="service-card__arrow">→</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">05</div>
+        <h3 class="service-card__title">Influencer Marketing</h3>
+        <p class="service-card__text">Kooperationen, Kampagnen und UGC — wir verbinden deine Marke mit den richtigen Creators.</p>
+        <span class="service-card__arrow">→</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-card__num">06</div>
+        <h3 class="service-card__title">Analytics & Reporting</h3>
+        <p class="service-card__text">Transparente Auswertungen, klare KPIs und monatliche Reports — du siehst immer, was dein Investment bringt.</p>
+        <span class="service-card__arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       PLATFORMS
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="platforms" class="section-pad">
+    <div class="container">
+      <div class="platforms__title-wrap reveal">
+        <div class="section-label" style="justify-content:center;">Plattformen</div>
+        <h2 class="section-title">Dein Kanal,<br>unsere Expertise</h2>
+      </div>
+    </div>
+
+    <div class="platforms__grid reveal">
+      <div class="platform-card platform-card--instagram">
+        <div class="platform-card__bg-text">IG</div>
+        <div class="platform-card__content">
+          <div class="platform-card__icon">📸</div>
+          <h3 class="platform-card__title">Instagram</h3>
+          <p class="platform-card__text">Feeds, Reels, Stories — wir machen deinen Instagram-Auftritt zum Eyecatcher und zur Conversion-Maschine.</p>
+        </div>
+      </div>
+      <div class="platform-card platform-card--tiktok">
+        <div class="platform-card__bg-text">TT</div>
+        <div class="platform-card__content">
+          <div class="platform-card__icon">🎵</div>
+          <h3 class="platform-card__title">TikTok</h3>
+          <p class="platform-card__text">Virales Content-Format mit Reichweite. Wir produzieren kurze Videos, die funktionieren und unterhalten.</p>
+        </div>
+      </div>
+      <div class="platform-card platform-card--linkedin">
+        <div class="platform-card__bg-text">LI</div>
+        <div class="platform-card__content">
+          <div class="platform-card__icon">💼</div>
+          <h3 class="platform-card__title">LinkedIn</h3>
+          <p class="platform-card__text">B2B-Präsenz, Employer Branding und Thought Leadership — professionell und wirkungsvoll.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       STATS
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="stats">
+    <div class="stats__grid">
+      <div class="stat-item reveal">
+        <div class="stat-item__number">50<span>+</span></div>
+        <div class="stat-item__label">Zufriedene Kunden</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-item__number">5<span>M</span></div>
+        <div class="stat-item__label">Reichweite generiert</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-item__number">300<span>%</span></div>
+        <div class="stat-item__label">Ø Wachstum in 6 Mo.</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-item__number">3<span>+</span></div>
+        <div class="stat-item__label">Jahre Erfahrung</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       ABOUT
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="about" class="section-pad">
+    <div class="container">
+      <div class="about__layout">
+        <div>
+          <div class="section-label">Über Regramm</div>
+          <h2 class="section-title" style="margin-bottom:2rem;">Wir lieben,<br>was wir tun.</h2>
+          <div class="about__text reveal">
+            <p>Regramm ist eine unabhängige Social-Media-Agentur mit Sitz in München. Wir arbeiten mit Marken, Start-ups und Unternehmen, die Social Media ernst nehmen — und den Unterschied machen wollen.</p>
+            <p>Unser kleines, eingespieltes Team verbindet strategisches Denken mit kreativem Handwerk. Wir glauben nicht an leere Versprechen oder aufgeblasene Reportings — wir liefern Ergebnisse, die messbar sind.</p>
+            <p>Inhaltliche Infos zu uns findest du bald auf <strong>regramm.de</strong>.</p>
+          </div>
+        </div>
+
+        <div class="about__features reveal">
+          <div class="about__feature">
+            <div class="about__feature__icon">🎯</div>
+            <div class="about__feature__title">Strategie zuerst</div>
+            <div class="about__feature__text">Kein Content ohne Plan. Wir starten mit einer fundierten Analyse.</div>
+          </div>
+          <div class="about__feature">
+            <div class="about__feature__icon">⚡</div>
+            <div class="about__feature__title">Schnelle Umsetzung</div>
+            <div class="about__feature__text">Kurze Wege, klare Kommunikation, schnelle Ergebnisse.</div>
+          </div>
+          <div class="about__feature">
+            <div class="about__feature__icon">📊</div>
+            <div class="about__feature__title">Datengetrieben</div>
+            <div class="about__feature__text">Jede Entscheidung basiert auf Zahlen und echten Insights.</div>
+          </div>
+          <div class="about__feature">
+            <div class="about__feature__icon">🤝</div>
+            <div class="about__feature__title">Partnerschaft</div>
+            <div class="about__feature__text">Kein Auftrag — eine echte Zusammenarbeit auf Augenhöhe.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       PROCESS
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="process" class="section-pad container">
+    <div class="reveal" style="margin-bottom:4rem;">
+      <div class="section-label">Wie wir arbeiten</div>
+      <h2 class="section-title">In 4 Schritten<br>zum Erfolg</h2>
+    </div>
+
+    <div class="process__steps">
+      <div class="process__step reveal">
+        <div class="process__step__num">01</div>
+        <h3 class="process__step__title">Analyse & Briefing</h3>
+        <p class="process__step__text">Wir tauchen tief in deine Marke, deine Zielgruppe und deine Konkurrenz ein. Das Ergebnis: ein klares Bild davon, wo du stehst und wohin du willst.</p>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step__num">02</div>
+        <h3 class="process__step__title">Strategie & Konzept</h3>
+        <p class="process__step__text">Auf Basis der Analyse entwickeln wir eine maßgeschneiderte Social-Media-Strategie — mit klaren Zielen, Formaten und Redaktionsplan.</p>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step__num">03</div>
+        <h3 class="process__step__title">Produktion & Launch</h3>
+        <p class="process__step__text">Content Shooting, Design, Copy, Ads — wir produzieren alles inhouse und veröffentlichen nach Plan.</p>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step__num">04</div>
+        <h3 class="process__step__title">Optimierung & Reporting</h3>
+        <p class="process__step__text">Monatliche Auswertung, A/B-Tests und kontinuierliche Optimierung. Was funktioniert, skalieren wir. Was nicht, verbessern wir.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECOND RIBBON (inverted rotation) -->
+  <div style="margin-block:2rem;">
+    <div class="ribbon-wrap">
+      <div class="ribbon" style="transform:rotate(1.5deg) translateY(-10px);">
+        <div class="ribbon-inner">
+          <div class="ribbon-track" style="animation-direction:reverse;">
+            <span>Reels</span><span class="star">★</span>
+            <span>TikTok</span><span class="star">★</span>
+            <span>Brand Deals</span><span class="star">★</span>
+            <span>Growth</span><span class="star">★</span>
+            <span>Engagement</span><span class="star">★</span>
+            <span>Conversion</span><span class="star">★</span>
+            <span>Reels</span><span class="star">★</span>
+            <span>TikTok</span><span class="star">★</span>
+            <span>Brand Deals</span><span class="star">★</span>
+            <span>Growth</span><span class="star">★</span>
+            <span>Engagement</span><span class="star">★</span>
+            <span>Conversion</span><span class="star">★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       FAQ
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="faq" class="section-pad container">
+    <div class="faq__layout">
+      <div class="faq__sticky reveal">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Häufige<br>Fragen</h2>
+      </div>
+
+      <div class="faq__list">
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span class="faq-item__q">Für wen ist Regramm geeignet?</span>
+            <div class="faq-item__icon">
+              <svg viewBox="0 0 13 14"><path d="M4.81 13.95H8.45V9.14H12.95V5.73H8.45V0.95H4.81V5.73H0.31V9.14H4.81V13.95Z"/></svg>
+            </div>
+          </div>
+          <div class="faq-item__answer">
+            <p class="faq-item__a">Wir arbeiten mit kleinen bis mittelgroßen Unternehmen, Start-ups, Personal Brands und E-Commerce-Shops — quer durch alle Branchen.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span class="faq-item__q">Wie läuft die Zusammenarbeit ab?</span>
+            <div class="faq-item__icon">
+              <svg viewBox="0 0 13 14"><path d="M4.81 13.95H8.45V9.14H12.95V5.73H8.45V0.95H4.81V5.73H0.31V9.14H4.81V13.95Z"/></svg>
+            </div>
+          </div>
+          <div class="faq-item__answer">
+            <p class="faq-item__a">Nach einem kostenlosen Erstgespräch erstellen wir ein individuelles Angebot. Danach starten wir mit einem Onboarding und Kick-off — meistens läuft der erste Content innerhalb von zwei Wochen.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span class="faq-item__q">Welche Plattformen betreut ihr?</span>
+            <div class="faq-item__icon">
+              <svg viewBox="0 0 13 14"><path d="M4.81 13.95H8.45V9.14H12.95V5.73H8.45V0.95H4.81V5.73H0.31V9.14H4.81V13.95Z"/></svg>
+            </div>
+          </div>
+          <div class="faq-item__answer">
+            <p class="faq-item__a">Instagram, TikTok, LinkedIn, Facebook und YouTube. Auf Wunsch auch Pinterest oder X. Wir empfehlen immer die Plattformen, die zu deiner Zielgruppe passen.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span class="faq-item__q">Was kostet ein Paket bei Regramm?</span>
+            <div class="faq-item__icon">
+              <svg viewBox="0 0 13 14"><path d="M4.81 13.95H8.45V9.14H12.95V5.73H8.45V0.95H4.81V5.73H0.31V9.14H4.81V13.95Z"/></svg>
+            </div>
+          </div>
+          <div class="faq-item__answer">
+            <p class="faq-item__a">Unsere Pakete starten ab 800 €/Monat. Der genaue Preis richtet sich nach Umfang, Plattformen und gewünschten Leistungen. Schreib uns einfach — wir erstellen ein auf dich zugeschnittenes Angebot.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span class="faq-item__q">Gibt es Mindestlaufzeiten?</span>
+            <div class="faq-item__icon">
+              <svg viewBox="0 0 13 14"><path d="M4.81 13.95H8.45V9.14H12.95V5.73H8.45V0.95H4.81V5.73H0.31V9.14H4.81V13.95Z"/></svg>
+            </div>
+          </div>
+          <div class="faq-item__answer">
+            <p class="faq-item__a">Wir empfehlen mindestens 3 Monate, damit Strategien greifen und Ergebnisse sichtbar werden. Für einmalige Projekte wie Shootings oder Kampagnen gibt es auch Einzelbuchungen.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span class="faq-item__q">Kann ich auch nur einzelne Leistungen buchen?</span>
+            <div class="faq-item__icon">
+              <svg viewBox="0 0 13 14"><path d="M4.81 13.95H8.45V9.14H12.95V5.73H8.45V0.95H4.81V5.73H0.31V9.14H4.81V13.95Z"/></svg>
+            </div>
+          </div>
+          <div class="faq-item__answer">
+            <p class="faq-item__a">Ja! Content-Produktionen, Strategie-Workshops oder Ads-Setups sind auch als Einzelleistungen buchbar. Meld dich einfach und wir schauen, was für dich am besten passt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       CONTACT
+  ══════════════════════════════════════════════════════╗ -->
+  <section id="contact" class="section-pad">
+    <div class="contact__bg"></div>
+    <div class="container">
+      <div class="contact__content reveal">
+        <div class="section-label" style="justify-content:center; margin-bottom:1.5rem;">Kontakt</div>
+        <h2 class="contact__title">Lass uns<br><em>reden.</em></h2>
+        <p class="contact__sub">Kein langer Fragebogen. Nur eine kurze E-Mail — und wir melden uns innerhalb von 24h.</p>
+
+        <div class="contact__form">
+          <input type="email" class="contact__input" placeholder="deine@email.de">
+          <a href="mailto:hello@regramm.de" class="btn-primary" style="white-space:nowrap;">Anfragen →</a>
+        </div>
+
+        <p style="margin-top:1.5rem; font-size:.75rem; color:rgba(254,246,226,.25); letter-spacing:.08em;">
+          Oder direkt per Mail: <a href="mailto:hello@regramm.de" style="color:var(--pink);">hello@regramm.de</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════╗ -->
+  <footer>
+    <div class="footer__logo">Re<span>gramm</span></div>
+
+    <nav class="footer__nav">
+      <a href="#services">Leistungen</a>
+      <a href="#platforms">Plattformen</a>
+      <a href="#about">Über uns</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
+
+    <div class="footer__copy">© 2025 Regramm — Alle Rechte vorbehalten</div>
+  </footer>
+
+
+  <!-- ╔══════════════════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════════════════╗ -->
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    reveals.forEach(r => observer.observe(r));
+
+    // Staggered children
+    document.querySelectorAll('.services__grid, .about__features, .stats__grid').forEach(grid => {
+      [...grid.children].forEach((child, i) => {
+        child.style.transitionDelay = `${i * 0.1}s`;
+      });
+    });
+
+    // FAQ accordion
+    function toggleFaq(trigger) {
+      const item = trigger.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.style.background = window.scrollY > 60
+        ? 'rgba(28,22,22,.95)'
+        : 'transparent';
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
