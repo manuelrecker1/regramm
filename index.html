@@ -68,8 +68,16 @@
         <link rel="preload" href="scripts/payload.js" as="script">
         <link rel="preload" href="scripts/manifest.js" as="script">
     <style>
+      /* Static deployment overrides */
       .loader { display: none !important; }
       #__nuxt { visibility: visible !important; opacity: 1 !important; }
+      /* Images are hidden by JS-driven lazy loading — reveal all */
+      picture { opacity: 1 !important; }
+      /* Scroll-animated sections that start invisible */
+      .js-line, .js-words, [class*="js-"] { opacity: 1 !important; transform: none !important; }
+      /* Ensure body/page content is visible */
+      body { cursor: auto !important; }
+      * { animation-play-state: running; }
     </style>
     </head>
     <body>
