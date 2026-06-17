@@ -75,9 +75,10 @@
       picture { opacity: 1 !important; }
       /* Scroll-animated sections that start invisible */
       .js-line, .js-words, [class*="js-"] { opacity: 1 !important; transform: none !important; }
-      /* Ensure body/page content is visible */
-      body { cursor: auto !important; }
-      * { animation-play-state: running; }
+      /* Fix Locomotive Scroll layout — without JS, .bounding collapses to 0 */
+      .bounding { position: relative !important; height: auto !important; overflow: visible !important; }
+      .page { position: relative !important; }
+      body { cursor: auto !important; background: #1c1616; }
     </style>
     </head>
     <body>
